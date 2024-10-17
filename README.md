@@ -33,20 +33,5 @@ The **Anarchy Consensus System** operates in a fully decentralized environment, 
 ### Czar Reallocation
 
 When a player (Czar) leaves the game, their responsibilities are automatically transferred to the next available backup Czar. This ensures that the system remains functional even when players disconnect or reconnect.
-
-```csharp
-// Example Czar Reallocation Code
-
-void HandlePlayerDrop(ulong droppedPlayerId)
-{
-    foreach (var shard in shardCzars)
-    {
-        if (shard.Value == droppedPlayerId)
-        {
-            // Reassign the shard to the next backup Czar
-            ulong newCzar = backupCzars[shard.Key].Dequeue();
-            shardCzars[shard.Key] = newCzar;
-            Debug.Log($"Reassigned shard {shard.Key} to new Czar: {newCzar}");
-        }
     }
 }

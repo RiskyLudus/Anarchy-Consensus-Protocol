@@ -1,8 +1,8 @@
-# Anarchy Consensus System
+# Anarchy Consensus Protocol
 
 ## Overview
 
-The **Anarchy Consensus System** is a fully decentralized, low-latency, peer-to-peer data-sharing framework designed for real-time multiplayer games. Instead of relying on a server or a leader election model, every player holds a full copy of the game state. Specific parts of the data are managed by randomly assigned **Czars**, who have the authority to update their respective parts of the state. If a player drops, a pre-assigned backup player takes over the responsibility for the data—ensuring continuous, seamless gameplay.
+The **Anarchy Consensus Protocol** is a fully decentralized, low-latency, peer-to-peer data-sharing framework designed for real-time multiplayer games. Instead of relying on a server or a leader election model, every player holds a full copy of the game state. Specific parts of the data are managed by randomly assigned **Czars**, who have the authority to update their respective parts of the state. If a player drops, a pre-assigned backup player takes over the responsibility for the data—ensuring continuous, seamless gameplay.
 
 ### Key Features:
 
@@ -33,5 +33,3 @@ The **Anarchy Consensus System** operates in a fully decentralized environment, 
 ### Czar Reallocation
 
 When a player (Czar) leaves the game, their responsibilities are automatically transferred to the next available backup Czar. This ensures that the system remains functional even when players disconnect or reconnect.
-    }
-}

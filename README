@@ -1,0 +1,58 @@
+# Anarchy Consensus System
+
+## Overview
+
+The **Anarchy Consensus System** is a decentralized, low-latency data-sharing model designed for real-time multiplayer games without the need for a central server. It allows every player to hold a full copy of the game state, while specific parts of the data are managed by randomly assigned "Czars" to maintain authority. When a player drops, there's no leader election—another player is instantly reassigned as the new Czar for that data shard, ensuring seamless transitions and no interruptions.
+
+---
+
+### Benefits
+
+1. **No Centralized Authority**  
+   - The system eliminates the need for a central server or authoritative leader. Every player contributes to maintaining part of the game state, reducing reliance on any one player.
+
+2. **No Elections = Instant Recovery**  
+   - Instead of traditional election-based consensus systems, the Anarchy Consensus System uses pre-assigned backup Czars for instant reassignment when a player drops. No elections, no delays.
+
+3. **Optimistic Replication with Low-Latency Updates**  
+   - Czars can commit changes locally and propagate those changes immediately to other players, reducing latency by avoiding confirmation delays. Optimistic replication ensures fast gameplay responsiveness.
+
+4. **Efficient Gossip Protocol**  
+   - The system leverages a gossip protocol to propagate state changes. Only deltas (state changes) are shared between players, reducing network traffic and improving sync times.
+
+5. **UDP for Speed**  
+   - The system prioritizes **UDP** over **TCP** for low-latency communication, allowing for rapid data transfer in non-critical updates, such as player positions or real-time game actions.
+
+6. **Scalable and Fault-Tolerant**  
+   - The system scales efficiently as more players join the game. Every player holds a copy of the game state, ensuring redundancy and fault tolerance. If any player drops, their state shard is automatically reassigned.
+
+7. **Serverless Infrastructure**  
+   - No need for an authoritative server. The Anarchy Consensus System is fully decentralized, reducing infrastructure costs and simplifying multiplayer setup.
+
+---
+
+### How It Works
+
+#### 1. Data Sharding and Czars
+The game state is divided into **shards**, each managed by a "Czar." Every player holds a full copy of the game state, but only the Czar of a shard can make changes to their assigned part of the data. Each Czar has a pre-allocated backup list to ensure quick reassignment when needed.
+
+```csharp
+public class AnarchyConsensusSystem : NetworkBehaviour
+{
+    private Dictionary<int, ulong> shardCzars = new Dictionary<int, ulong>(); // <ShardID, CzarPlayerID>
+    private Dictionary<int, object> gameStateShards = new Dictionary<int, object>(); // <ShardID, ShardData>
+
+    private void Start()
+    {
+        InitializeShards();
+    }
+
+    void InitializeShards()
+    {
+        for (int shardID = 0; shardID < NumberOfShards; shardID++)
+        {
+            shardCzars[shardID] = RandomlyAssignCzar(shardID);
+            backupCzars[shardID] = GenerateBackupCzars(); // Pre-generate backup czars
+        }
+    }
+}

@@ -26,7 +26,7 @@ By combining lightweight communication protocols, adaptive performance optimizat
 | **v0.1.0**  | Core Networking                                  | P2P networking layer, shard and Czar management.                                                |
 | **v0.2.0**  | State Synchronization                            | Gossip protocol, conflict resolution, cryptographic validation.                                 |
 | **v0.3.0**  | Fault Tolerance and Debugging                    | Heartbeat monitoring, adaptive rate control, debugging tools for shard states and latency.       |
-| **v0.4.0**  | Scalability                                      | Dynamic shard splitting/merging, delta updates for shard data, large-scale peer tests.           |
+| **v1.0.0**  | Scalability                                      | Dynamic shard splitting/merging, delta updates for shard data, large-scale peer tests.           |
 
 ---
 

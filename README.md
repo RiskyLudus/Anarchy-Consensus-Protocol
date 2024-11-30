@@ -19,7 +19,7 @@ The **Anarchy Consensus Protocol** is a fully decentralized, low-latency, peer-t
 | **v0.1.0**  | Core Networking                                  | P2P networking layer, shard and Czar management.                                                |
 | **v0.2.0**  | State Synchronization                            | Gossip protocol, conflict resolution, cryptographic validation.                                 |
 | **v0.3.0**  | Fault Tolerance and Debugging                    | Heartbeat monitoring, adaptive rate control, debugging tools for shard states and latency.       |
-| **v2.1.0**  | Scalability                                      | Shard splitting and merging, delta updates for shard data.                                      |
+| **v0.4.0**  | Scalability                                      | Shard splitting and merging, delta updates for shard data.                                      |
 
 ---
 

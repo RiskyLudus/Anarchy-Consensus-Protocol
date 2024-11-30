@@ -1,83 +1,97 @@
-# Anarchy Consensus Protocol
+# **Anarchy Consensus Protocol**
 
-## Overview
+## **Overview**
 
-The **Anarchy Consensus Protocol** is a fully decentralized, low-latency, peer-to-peer data-sharing framework designed for real-time multiplayer games. Instead of relying on a server or a leader election model, every player holds a full copy of the game state. Specific parts of the data are managed by randomly assigned Czars, who have the authority to update their respective parts of the state. If a player drops, a pre-assigned backup player takes over the responsibility for the data—ensuring continuous, seamless gameplay.
+The **Anarchy Consensus Protocol** is a fully decentralized, low-latency, peer-to-peer data-sharing framework designed specifically for real-time multiplayer games. Unlike traditional server-based or leader-election models, this protocol distributes the game state equally among all players. Specific data shards are managed by assigned **Czars**, who have the authority to update their respective shards. When a Czar leaves, a pre-assigned **Backup Czar** seamlessly takes over the responsibility, ensuring uninterrupted gameplay and state synchronization.
 
-## Key Features
+By combining lightweight communication protocols, adaptive performance optimizations, and fault-tolerant mechanisms, the **Anarchy Consensus Protocol** enables scalable and resilient multiplayer experiences.
 
-- **Decentralized & Serverless**: No central server or authoritative host. Every player contributes equally to maintaining and updating the game state.
-- **Instant Czar Reallocation**: If a player (Czar) leaves the game, a pre-assigned backup Czar immediately takes over. No time-consuming election process is needed.
-- **Low-Latency State Updates**: The system prioritizes optimistic replication to reduce the need for frequent confirmations, ensuring faster gameplay updates.
-- **Efficient Gossip Protocol**: Changes to the game state are propagated using a lightweight gossip protocol, ensuring quick syncing without flooding the network.
-- **Fault-Tolerant**: Redundancy is built into the system through backup Czars, providing automatic failover when players disconnect.
+---
 
-## Anarchy Consensus Protocol Roadmap
+## **Key Features**
+
+- **Decentralized and Serverless**: Players collectively maintain the game state without relying on a central server or host.
+- **Dynamic Czar Reallocation**: Backup Czars ensure immediate reassignment of responsibilities when a player disconnects.
+- **Low-Latency State Updates**: Optimistic replication ensures fast updates, reducing the need for frequent confirmations.
+- **Efficient Gossip Protocol**: Lightweight synchronization keeps network traffic minimal while maintaining real-time accuracy.
+- **Fault Tolerance**: Built-in redundancy ensures seamless gameplay even in the face of player dropouts.
+- **Scalable Architecture**: Dynamic shard splitting and merging adapt to changing player counts, optimizing resource allocation.
+
+---
+
+## **Anarchy Consensus Protocol Roadmap**
 
 | **Version** | **Milestone**                                    | **Key Features**                                                                                 |
 |-------------|--------------------------------------------------|--------------------------------------------------------------------------------------------------|
 | **v0.1.0**  | Core Networking                                  | P2P networking layer, shard and Czar management.                                                |
 | **v0.2.0**  | State Synchronization                            | Gossip protocol, conflict resolution, cryptographic validation.                                 |
 | **v0.3.0**  | Fault Tolerance and Debugging                    | Heartbeat monitoring, adaptive rate control, debugging tools for shard states and latency.       |
-| **v0.4.0**  | Scalability                                      | Shard splitting and merging, delta updates for shard data.                                      |
+| **v0.4.0**  | Scalability                                      | Dynamic shard splitting/merging, delta updates for shard data, large-scale peer tests.           |
 
 ---
 
-## How It Works
+## **How It Works**
 
-### Data Sharding and Czar Management
+### **Data Sharding and Czar Management**
+The game state is divided into logical shards, with each shard representing specific data (e.g., player stats, objects, events). While every player has a complete copy of the state, only the assigned **Czar** has authority to update specific shards.
 
-The game state is divided into shards, where each shard represents a part of the game data (e.g., player stats, objects, events). Every player holds a full copy of the game state, but only the Czar of a shard has the authority to update that shard.
+- **Czars**: Each shard is managed by one Czar, responsible for updates and maintaining shard integrity.
+- **Backup Czars**: Pre-assigned backups ensure seamless transitions when a Czar disconnects.
 
-- **Czars**: Each shard has one assigned Czar at any given time who can make changes to the shard's data.
-- **Backup Czars**: Each shard has a pre-determined list of backups, ensuring that if a Czar drops from the game, responsibility is seamlessly transferred to the next available player.
+---
 
-### Consensus Mechanism
+### **Consensus Mechanism**
+The protocol resolves data conflicts using a lightweight consensus model:
+- **Majority Vote**: Critical updates require agreement from a majority of peers to ensure consistency.
+- **Versioning**: Each update includes a version number to prevent conflicts caused by outdated state changes.
 
-To maintain data integrity, a consensus mechanism is used to resolve conflicts when multiple Czars attempt to update the same data. Each update includes a version number, and changes are validated based on:
+---
 
-- **Majority Vote**: Critical updates are confirmed by a majority of Czars to ensure consistency.
+### **Peer-to-Peer Communication**
+The protocol operates in a serverless, peer-to-peer environment:
+- **UDP-Based Communication**: UDP ensures fast, low-latency messaging for real-time updates.
+- **Optimistic Replication**: Changes are applied locally by Czars and broadcast to peers, minimizing update lag.
 
-### Peer-to-Peer Communication
+---
 
-The Anarchy Consensus System operates in a fully decentralized environment, using peer-to-peer (P2P) connections. Each player communicates directly with every other player to share data updates, eliminating single points of failure and distributing the workload evenly across all participants.
+### **Reallocation Protocol**
+When a Czar leaves:
+- **Heartbeat Monitoring**: Czars periodically send status updates. If a heartbeat is missed, a Backup Czar automatically takes over.
+- **Seamless Reallocation**: Backup Czars assume responsibilities without interrupting gameplay.
 
-- **UDP-Based Communication**: The system uses UDP (User Datagram Protocol) for fast, low-latency communication of game data.
-- **Optimistic Replication**: Czars commit changes locally and broadcast updates to the rest of the network, minimizing lag while ensuring that necessary updates are communicated efficiently.
+---
 
-### Reallocation Protocol
+### **Delta Updates**
+- **Change Efficiency**: Only deltas (state changes) are transmitted, reducing network bandwidth usage.
+- **Compression**: Optimized data transfer ensures low-latency state synchronization, even under heavy load.
 
-When a player (Czar) leaves the game, their responsibilities are automatically transferred to the next available backup Czar using a reallocation protocol that includes:
+---
 
-- **Heartbeat System**: Czars send periodic updates about their status. If a heartbeat is missed, the next player in line takes over.
+### **Adaptive Rate Control**
+- **Dynamic Update Frequency**: The system adjusts the frequency of state updates based on network conditions.
+- **Prioritization**: Critical updates are prioritized to maintain gameplay integrity.
 
-### Delta Updates
+---
 
-To optimize data transmission, the protocol employs delta updates, where only changes (deltas) are sent instead of the entire game state. This reduces the data being transmitted and enhances efficiency.
+### **Shard Splitting and Merging**
+- **Dynamic Scaling**: As player counts change, shards are split or merged to optimize load distribution.
+- **Balanced Management**: Ensures no shard becomes overloaded or neglected.
 
-### Adaptive Rate Control
+---
 
-The protocol implements adaptive rate control, adjusting the frequency of updates based on network performance. If latency increases, the update frequency is reduced to maintain a smooth experience while ensuring that important updates still get communicated in a timely manner.
+### **Debugging and Monitoring Tools**
+- **State Monitoring**: Tools to visualize shard assignments, network activity, and peer health.
+- **Latency Tracking**: Real-time feedback on network performance, bandwidth usage, and peer connections.
 
-### Shard Splitting/Merging
+---
 
-As player counts change, the system allows for dynamic shard splitting and merging. If a shard becomes too large, it can be split into smaller shards managed by new Czars, while smaller shards can be merged to optimize management. This process ensures that Czars are assigned efficiently without leaving shards unassigned.
+### **State Validation**
+To ensure data integrity, all state changes are verified:
+- **Digital Signatures**: Updates are signed by Czars to prevent tampering.
+- **Checksum Verification**: Players validate state changes against checksums of previous states.
 
-### Dynamic Czar Assignment
+---
 
-Czar assignment is dynamically adjusted based on player availability and performance metrics. This process is coordinated with the reallocation protocol to avoid confusion regarding responsibilities during transitions, ensuring that the most reliable players are assigned as Czars as the player pool changes.
+## **License**
 
-### State Validation
-
-Each update is validated to prevent tampering through:
-
-- **Digital Signatures**: Updates are signed by the Czar's cryptographic key.
-- **Checksum Verification**: Players validate state changes against a checksum or hash of the previous state.
-
-## Conclusion
-
-The Anarchy Consensus Protocol aims to provide a robust framework for real-time multiplayer games, ensuring seamless gameplay and resilience in a decentralized environment.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

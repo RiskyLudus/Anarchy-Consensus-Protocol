@@ -12,6 +12,17 @@ The **Anarchy Consensus Protocol** is a fully decentralized, low-latency, peer-t
 - **Efficient Gossip Protocol**: Changes to the game state are propagated using a lightweight gossip protocol, ensuring quick syncing without flooding the network.
 - **Fault-Tolerant**: Redundancy is built into the system through backup Czars, providing automatic failover when players disconnect.
 
+## Anarchy Consensus Protocol Roadmap
+
+| **Version** | **Milestone**                                    | **Key Features**                                                                                 |
+|-------------|--------------------------------------------------|--------------------------------------------------------------------------------------------------|
+| **v0.1.0**  | Core Networking                                  | P2P networking layer, shard and Czar management.                                                |
+| **v0.2.0**  | State Synchronization                            | Gossip protocol, conflict resolution, cryptographic validation.                                 |
+| **v0.3.0**  | Fault Tolerance and Debugging                    | Heartbeat monitoring, adaptive rate control, debugging tools for shard states and latency.       |
+| **v2.1.0**  | Scalability                                      | Shard splitting and merging, delta updates for shard data.                                      |
+
+---
+
 ## How It Works
 
 ### Data Sharding and Czar Management

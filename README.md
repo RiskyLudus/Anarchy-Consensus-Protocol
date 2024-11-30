@@ -15,6 +15,8 @@ By combining lightweight communication protocols, adaptive performance optimizat
 - **Low-Latency State Updates**: Optimistic replication ensures fast updates, reducing the need for frequent confirmations.
 - **Efficient Gossip Protocol**: Lightweight synchronization keeps network traffic minimal while maintaining real-time accuracy.
 - **Fault Tolerance**: Built-in redundancy ensures seamless gameplay even in the face of player dropouts.
+- **Snapshot Interpolation**: Smooths player and object movements across network updates, reducing visual lag or stutter.
+- **Deterministic Physics**: Guarantees consistent physics results across peers, eliminating desynchronization risks.
 - **Scalable Architecture**: Dynamic shard splitting and merging adapt to changing player counts, optimizing resource allocation.
 
 ---
@@ -26,7 +28,8 @@ By combining lightweight communication protocols, adaptive performance optimizat
 | **v0.1.0**  | Core Networking                                  | P2P networking layer, shard and Czar management.                                                |
 | **v0.2.0**  | State Synchronization                            | Gossip protocol, conflict resolution, cryptographic validation.                                 |
 | **v0.3.0**  | Fault Tolerance and Debugging                    | Heartbeat monitoring, adaptive rate control, debugging tools for shard states and latency.       |
-| **v1.0.0**  | Scalability                                      | Dynamic shard splitting/merging, delta updates for shard data, large-scale peer tests.           |
+| **v0.4.0**  | Scalability                                      | Dynamic shard splitting/merging, delta updates for shard data, large-scale peer tests.           |
+| **v1.0.0**  | Physics and Interpolation                        | Snapshot interpolation, deterministic physics for synchronized game state updates.               |
 
 ---
 
@@ -47,6 +50,22 @@ The protocol resolves data conflicts using a lightweight consensus model:
 
 ---
 
+### **Snapshot Interpolation**
+To address visual inconsistencies caused by network latency, the protocol implements **snapshot interpolation**:
+- **Snapshots**: Periodic snapshots of the game state (e.g., player positions, velocities) are captured and shared with peers.
+- **Interpolation**: Players render smooth transitions between snapshots by interpolating between the latest received states.
+- **Extrapolation Fallback**: If snapshots are delayed, extrapolation is used to predict the next state based on current trends.
+
+---
+
+### **Deterministic Physics**
+To ensure consistent physics behavior across all peers:
+- **Fixed-Timestep Simulation**: All peers use the same physics update interval, ensuring consistent results for identical inputs.
+- **Shared Inputs**: Physics interactions (e.g., forces, collisions) are shared as deterministic inputs rather than outcomes.
+- **Synchronization**: The Gossip Protocol is extended to handle physics-related events, ensuring peers remain in sync.
+
+---
+
 ### **Peer-to-Peer Communication**
 The protocol operates in a serverless, peer-to-peer environment:
 - **UDP-Based Communication**: UDP ensures fast, low-latency messaging for real-time updates.
@@ -64,12 +83,6 @@ When a Czar leaves:
 ### **Delta Updates**
 - **Change Efficiency**: Only deltas (state changes) are transmitted, reducing network bandwidth usage.
 - **Compression**: Optimized data transfer ensures low-latency state synchronization, even under heavy load.
-
----
-
-### **Adaptive Rate Control**
-- **Dynamic Update Frequency**: The system adjusts the frequency of state updates based on network conditions.
-- **Prioritization**: Critical updates are prioritized to maintain gameplay integrity.
 
 ---
 
